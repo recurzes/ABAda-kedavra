@@ -4,6 +4,120 @@ A minimal FastAPI application for managing addresses with geographic
 coordinates, backed by SQLite. Supports full CRUD plus a "find addresses
 near a point" search.
 
+## Run the app
+
+Open a terminal in the project root (the folder containing this README).
+Python 3.10 or newer is required.
+
+### 1. Check whether Python is installed
+
+**Windows (PowerShell):**
+
+```powershell
+py --version
+```
+
+**macOS or Linux:**
+
+```bash
+python3 --version
+```
+
+If the command prints `Python 3.10` or newer, continue to the next step. If
+Python is not installed, use the instructions for your platform below.
+
+### 2. Install Python
+
+**Windows (PowerShell with WinGet):**
+
+```powershell
+winget install --id Python.Python.3.12 -e
+```
+
+Close and reopen PowerShell after the installation, then verify it:
+
+```powershell
+py --version
+```
+
+**macOS (Terminal with Homebrew):**
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install python@3.12
+python3.12 --version
+```
+
+If Homebrew is already installed, run only the `brew install` and
+`python3.12 --version` commands.
+
+**Debian or Ubuntu Linux (Terminal):**
+
+```bash
+sudo apt update
+sudo apt install -y python3.12 python3.12-venv
+python3.12 --version
+```
+
+### 3. Create and activate a virtual environment
+
+Run the commands for your platform from the project root:
+
+**Windows (PowerShell):**
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+If PowerShell blocks script execution, allow scripts for your user and
+activate the environment again:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\.venv\Scripts\Activate.ps1
+```
+
+**Windows (Command Prompt):**
+
+```bat
+py -3 -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+**macOS or Linux:**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+When the virtual environment is active, your terminal prompt starts with
+`.venv`.
+
+### 4. Install dependencies
+
+With the virtual environment active, run:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+### 5. Start the API
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+The API will be available at `http://127.0.0.1:8000`.
+
+Open **`http://127.0.0.1:8000/docs`** for the interactive Swagger UI,
+where you can try every endpoint directly in the browser.
+
+A SQLite file `address_book.db` is created automatically in the project
+root the first time the app starts — no manual database setup is needed.
+
 ## Features
 
 - **Create / Read / Update / Delete** addresses
@@ -38,35 +152,6 @@ address_book_api/
 ## Requirements
 
 - Python 3.10+ (uses `tuple[float, float, float, float]` style type hints)
-
-## Setup & run
-
-Open a terminal in the project root (the folder containing this README)
-and run:
-
-```bash
-# 1. Create and activate a virtual environment
-python3 -m venv venv
-source venv/bin/activate        # On Windows: venv\Scripts\activate
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Start the API (auto-reloads on code changes)
-uvicorn app.main:app --reload
-```
-
-The API will be available at `http://127.0.0.1:8000`.
-
-Open **`http://127.0.0.1:8000/docs`** for the interactive Swagger UI,
-where you can try every endpoint directly in the browser.
-
-A SQLite file `address_book.db` is created automatically in the project
-root the first time the app starts — no manual database setup needed.
-
-
-This runs against an isolated in-memory SQLite database, so it never
-touches `address_book.db`.
 
 ## API reference
 
