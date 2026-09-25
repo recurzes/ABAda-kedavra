@@ -1,3 +1,4 @@
+import logging
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
@@ -32,6 +33,10 @@ def get_db():
     finally:
         db.close()
 
+
+@app.get("/")
+def index():
+    return {"route": "go to /docs to test endpoints"}
 
 @app.post(
     "/addresses",
