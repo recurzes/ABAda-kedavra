@@ -63,6 +63,17 @@ def find_addresses_near(
         longitude: float,
         radius_km: float
 ) -> List[tuple[models.Address, float]]:
+    """
+    Return (address, distance_km) pairs for every address within
+    `radius_km` of (latitude, longitude), sorted nearest-first.
+
+    Two-step search:
+        1. A cheap SQL bounding-box filter using the indexed lat/lon columns,
+             to avoid scanning the whole table.
+        2. An exact haversine distance check + sort in Python on that
+            (much smaller) candidate set, since SQLite has no built-in
+            great-circle distance function.
+    """
     lat_min, lat_max, lon_min, lon_max = bounding_box(latitude, longitude, radius_km)
 
     candidates = (
